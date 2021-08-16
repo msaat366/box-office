@@ -11,12 +11,12 @@ export const MainDataWrapper = styled.div`
     border: 1px solid #ddd;
     border-radius: 40px;
 
-    .text-side {
-      margin-left: 20px;
-      .summary {
-        color: #5f5f5f;
-        line-height: 1.5;
-      }
+  }
+  .text-side {
+    margin-left: 20px;
+    .summary {
+      color: #5f5f5f;
+      line-height: 1.5;
     }
 
     @media only screen and (max-width: 768px) {
@@ -36,7 +36,7 @@ export const MainDataWrapper = styled.div`
 export const HeadLine = styled.div`
   display: flex;
   align-items: center;
-  span {
+  .span {
     margin-left: 10px;
   }
 `;
