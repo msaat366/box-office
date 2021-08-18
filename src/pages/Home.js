@@ -1,5 +1,5 @@
 /* eslint-disable arrow-body-style */
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ActorGrid from '../components/actor/ActorGrid';
 import CustomRadio from '../components/CustomRadio';
 import MainPageLayout from '../components/MainPageLayout';
@@ -12,6 +12,21 @@ import {
   SearchInput,
 } from './Home.styled';
 
+ const renderResults = (results) => {
+   if (results && results.length === 0) {
+     return <div>No results</div>;
+   }
+   if (results && results.length > 0) {
+     return results[0].show ? (
+       <ShowGrid data={results} />
+     ) : (
+       <ActorGrid data={results} />
+     );
+   }
+
+   return null;
+ };
+
 const Home = () => {
   const [input, setInput] = useLastQuery();
   const [results, setResults] = useState(null);
@@ -23,9 +38,9 @@ const Home = () => {
       setResults(result);
     });
   };
-  const onInputChange = ev => {
+  const onInputChange = useCallback(ev => {
     setInput(ev.target.value);
-  };
+  },[setInput]);
 
   const onKeyDown = ev => {
     if (ev.keyCode === 13 && input.length > 0) {
@@ -33,24 +48,11 @@ const Home = () => {
     }
   };
 
-  const onRadioChange = ev => {
+  const onRadioChange = useCallback(ev => {
     setSearchOption(ev.target.value);
-  };
+  }, []);
 
-  const renderResults = () => {
-    if (results && results.length === 0) {
-      return <div>No results</div>;
-    }
-    if (results && results.length > 0) {
-      return results[0].show ? (
-        <ShowGrid data={results} />
-      ) : (
-        <ActorGrid data={results} />
-      );
-    }
 
-    return null;
-  };
 
   return (
     <MainPageLayout>
@@ -86,7 +88,7 @@ const Home = () => {
         <button type="submit" onClick={onSearch}>
           Search
         </button>
-        {renderResults()}
+        {renderResults(results)}
       </SearchButtonWrapper>
     </MainPageLayout>
   );
